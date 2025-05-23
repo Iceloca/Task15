@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CPU Load</title>
+    <script>
+        async function fetchLoad() {
+            const res = await fetch('/cpu_server');
+            const text = await res.text();
+            document.getElementById('cpu').innerText = text;
+        }
+        setInterval(fetchLoad, 1000);
+        window.onload = fetchLoad;
+    </script>
+</head>
+<body>
+    <h1>CPU Load in Real Time</h1>
+    <pre id="cpu">Loading...</pre>
+</body>
+</html>

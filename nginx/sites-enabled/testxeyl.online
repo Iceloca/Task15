@@ -1,0 +1,92 @@
+server {
+    listen 80;
+    server_name testxeyl.online ;
+
+    return 301 https://$host$request_uri;
+}
+
+upstream redblue{
+    server localhost:9091;
+    server localhost:9092;
+}
+
+log_format proxy_log '$remote_addr - $host [$time_local] '
+                     '"$request" status: $status '
+                     'upstream: $upstream_addr ($proxy_host) '
+                     'time: $upstream_response_time ';
+
+server {
+    listen 443;
+    server_name nginx.testxeyl.online;
+
+    access_log /var/log/nginx/access_proxy.log proxy_log;
+
+    root /var/www/html;
+
+    location / {
+        index index.html;
+    }
+
+    location /secondpage {
+        try_files $uri.html =404;
+    }
+
+
+
+    location /music {
+        add_header Content-Disposition "attachment; filename=music.mp3";
+        alias /var/www/html/music.mp3;
+    }
+
+    location /info.php {
+        proxy_pass https://apache.testxeyl.online:8080/info.php;
+    }
+
+    location /secondserver {
+        return 301  https://cataas.com/cat;
+    }
+    location /redblue {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_pass http://redblue;
+    }
+
+    location ~* \.(jpg|jpeg)$ {
+        return 301 http://$host/image2;
+    }
+
+
+    location /image1 {
+
+        image_filter rotate 180;
+        image_filter_buffer 20M;
+
+	alias /var/www/images/jpg/cotic.jpg;
+
+        default_type image/jpg;
+    }
+
+    location ~* \.png$ {
+        return 301 http://$host/image2;
+    }
+
+
+    location /image2 {
+        alias /var/www/images/png/cotic.png;
+        default_type image/png;
+    }
+
+    location /cpu_load {
+        try_files $uri, $uri.html =404;
+
+    }
+
+    location /cpu_server {
+    	proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://localhost:9093;
+
+    }
+}
