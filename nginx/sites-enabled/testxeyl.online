@@ -56,7 +56,7 @@ server {
     }
 
     location ~* \.(jpg|jpeg)$ {
-        return 301 http://$host/image2;
+        return 301 http://$host/image1;
     }
 
 
