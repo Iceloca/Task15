@@ -17,7 +17,7 @@ log_format proxy_log '$remote_addr - $host [$time_local] '
 
 server {
     listen 443 ssl;
-    server_name nginx.testxeyl.online;
+    server_name testxeyl.online;
     ssl_certificate /etc/letsencrypt/live/testxeyl.online/fullchain.pem; # managed by Certbot
     ssl_certificate_key /etc/letsencrypt/live/testxeyl.online/privkey.pem; # managed by Certbot
 
