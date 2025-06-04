@@ -14,9 +14,11 @@ pipeline {
     stages {
         stage('Init') {
              steps {
-                 echo 'Initializing..'
-                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-+                echo "Current branch: ${env.BRANCH_NAME}"
+                echo 'Initializing..'
+                script {
+                            echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                            echo "Current branch: ${env.BRANCH_NAME}"
+                        }
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
                 }
