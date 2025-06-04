@@ -15,6 +15,7 @@ pipeline {
              steps {
                 echo 'Initializing..'
                 script {
+                            git c
                             echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                             echo "Current branch: ${env.BRANCH_NAME}"
                         }
@@ -23,6 +24,11 @@ pipeline {
                 }
              }
          }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build Nginx Docker Image') {
             steps {
                 script {
