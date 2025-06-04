@@ -72,7 +72,7 @@ pipeline {
                 }
 
                 withCredentials([
-                    certificate(credentialsId: 'certificate-credentials-id', variable: 'CERT_PEM')
+                    file(credentialsId: 'certificate-credentials-id', variable: 'CERT_PEM')
                 ]) {
                     sshagent([env.SSH_CREDENTIALS_ID]) {
                         for (server in servers) {
