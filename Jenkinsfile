@@ -60,56 +60,57 @@ pipeline {
             }
         }
     stage('Deploy') {
-    steps {
-        script {
-            def servers = []
-            if (env.BRANCH_NAME == 'dev') {
-                servers = ['ubuntu@54.163.15.99']
-            } else if (env.BRANCH_NAME == 'main') {
-                servers = ['ubuntu@54.163.15.99']
-            } else {
-                error "Unsupported branch for deployment: ${env.BRANCH_NAME}"
-            }
+        steps {
+            script {
+                def servers = []
+                if (env.BRANCH_NAME == 'dev') {
+                    servers = ['ubuntu@54.163.15.99']
+                } else if (env.BRANCH_NAME == 'main') {
+                    servers = ['ubuntu@54.163.15.99']
+                } else {
+                    error "Unsupported branch for deployment: ${env.BRANCH_NAME}"
+                }
 
-            withCredentials([
-                certificate(credentialsId: 'certificate-credentials-id', certificateVariable: 'CERT_PEM')
-            ]) {
-                sshagent([SSH_CREDENTIALS_ID]) {
-                    for (server in servers) {
-                        echo "Deploying to ${server}"
+                withCredentials([
+                    certificate(credentialsId: 'certificate-credentials-id', certificateVariable: 'CERT_PEM')
+                ]) {
+                    sshagent([SSH_CREDENTIALS_ID]) {
+                        for (server in servers) {
+                            echo "Deploying to ${server}"
 
-                        // Создаем локально файл cert.pem с сертификатом+ключом
-                        sh """
-                            echo "$CERT_PEM" > cert.pem
-                        """
+                            // Создаем локально файл cert.pem с сертификатом+ключом
+                            sh """
+                                echo "$CERT_PEM" > cert.pem
+                            """
 
-                        // Копируем cert.pem на сервер (например, в /remote/path/cert.pem)
-                        sh """
-                            scp -o StrictHostKeyChecking=no cert.pem ${server}:/remote/path/cert.pem
-                        """
+                            // Копируем cert.pem на сервер (например, в /remote/path/cert.pem)
+                            sh """
+                                scp -o StrictHostKeyChecking=no cert.pem ${server}:/remote/path/cert.pem
+                            """
 
-                        // Запускаем контейнеры, монтируя сертификат туда, где nginx ожидает его
-                        sh """
-                            ssh -o StrictHostKeyChecking=no ${server} '
-                                docker network create mynet || true &&
+                            // Запускаем контейнеры, монтируя сертификат туда, где nginx ожидает его
+                            sh """
+                                ssh -o StrictHostKeyChecking=no ${server} '
+                                    docker network create mynet || true &&
 
-                                # Остановить и удалить старые контейнеры apache и nginx, если они есть
-                                docker rm -f apache nginx || true &&
+                                    # Остановить и удалить старые контейнеры apache и nginx, если они есть
+                                    docker rm -f apache nginx || true &&
 
-                                # Очистить неиспользуемые образы старше 24 часов
-                                docker image prune -a --filter "until=24h" -f || true
+                                    # Очистить неиспользуемые образы старше 24 часов
+                                    docker image prune -a --filter "until=24h" -f || true
 
-                                # Запустить новые контейнеры
-                                docker run --name apache --network mynet -d -p 8080:8080 ${APACHE_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID} &&
-                                docker run --name nginx --network mynet -d -p 80:80 -p 443:443 ${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}
-                            '
-                        """
+                                    # Запустить новые контейнеры
+                                    docker run --name apache --network mynet -d -p 8080:8080 ${APACHE_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID} &&
+                                    docker run --name nginx --network mynet -d -p 80:80 -p 443:443 ${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}
+                                '
+                            """
+                        }
                     }
                 }
             }
         }
-    }
 
+    }
 }
 
 
