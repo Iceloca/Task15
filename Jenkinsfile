@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-        REGISTRY = "hub.docker.com"
+        REGISTRY = "https://index.docker.io/v1/"
         IMAGE_NAME = "iceloka/my-nginx"
         DOCKER_CREDENTIALS_ID = "docker-credentials-id" // Jenkins credentials
         DEPLOY_SERVER = "user@your-server"
