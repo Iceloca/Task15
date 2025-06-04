@@ -78,14 +78,9 @@ pipeline {
                         for (server in servers) {
                             echo "Deploying to ${server}"
 
-                            // Создаем локально файл cert.pem с сертификатом+ключом
-                            sh """
-                                echo "$CERT_PEM" > cert.pem
-                            """
 
-                            // Копируем cert.pem на сервер (например, в /remote/path/cert.pem)
                             sh """
-                                scp -o StrictHostKeyChecking=no cert.pem ${server}:/home/ubuntu/cert.pem
+                                scp -o StrictHostKeyChecking=no "$CERT_PEM" ${server}:/home/ubuntu/cert.pem
                             """
 
                             // Запускаем контейнеры, монтируя сертификат туда, где nginx ожидает его
@@ -101,7 +96,7 @@ pipeline {
 
                                     # Запустить новые контейнеры
                                     docker run --name apache --network mynet -d -p 8080:8080 ${APACHE_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID} &&
-                                    docker run --name nginx --network mynet -d -p 80:80 -p 443:443 ${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}
+                                    docker run --name nginx --network mynet -d -p 80:80 -v /home/ubuntu/cert.epm::/etc/letsencrypt/live/testxeyl.online/cert.pem:ro -p 443:443 ${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}
                                 '
                             """
                         }
