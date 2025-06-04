@@ -25,11 +25,6 @@ pipeline {
                 }
              }
          }
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Build Nginx Docker Image') {
             steps {
                 script {
