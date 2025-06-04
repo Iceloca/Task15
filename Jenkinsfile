@@ -64,7 +64,7 @@ pipeline {
                 script {
                     def servers = []
                     if (env.BRANCH_NAME == 'dev') {
-                        servers = ['user@dev-server1.example.com']
+                        servers = ['54.163.15.99']
                     } else if (env.BRANCH_NAME == 'main') {
                         servers = ['54.163.15.99']
                     } else {
