@@ -64,9 +64,9 @@ pipeline {
                 script {
                     def servers = []
                     if (env.BRANCH_NAME == 'dev') {
-                        servers = ['54.163.15.99']
+                        servers = ['ubuntu@54.163.15.99']
                     } else if (env.BRANCH_NAME == 'main') {
-                        servers = ['54.163.15.99']
+                        servers = ['ubuntu@54.163.15.99']
                     } else {
                         error "Unsupported branch for deployment: ${env.BRANCH_NAME}"
                     }
