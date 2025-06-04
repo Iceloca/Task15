@@ -42,10 +42,8 @@ pipeline {
         stage('Push to Registry') {
             steps {
                 script {
-                    docker.withRegistry("https://${REGISTRY}", "${DOCKER_CREDENTIALS_ID}") {
                     dockerImage.push("${GIT_COMMIT_SHORT}")
                     dockerImage.push("latest")
-                    }
                 }
             }
         }
