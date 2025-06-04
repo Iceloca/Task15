@@ -64,7 +64,7 @@ pipeline {
             script {
                 def servers = []
                 if (env.BRANCH_NAME == 'dev') {
-                    servers = ['ubuntu@54.163.15.99']
+                    servers = ['ubuntu@100.26.107.66']
                 } else if (env.BRANCH_NAME == 'main') {
                     servers = ['ubuntu@54.163.15.99']
                 } else {
@@ -80,7 +80,7 @@ pipeline {
 
 
                             sh """
-                                scp -o StrictHostKeyChecking=no "$CERT_PEM" ${server}:/home/ubuntu/cert.pem
+                                scp -o StrictHostKeyChecking=no $CERT_PEM ${server}:/home/ubuntu/cert.pem
                             """
 
                             // Запускаем контейнеры, монтируя сертификат туда, где nginx ожидает его
