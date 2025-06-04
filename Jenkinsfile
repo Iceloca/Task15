@@ -96,7 +96,7 @@ pipeline {
 
                                     # Запустить новые контейнеры
                                     docker run --name apache --network mynet -d -p 8080:8080 ${APACHE_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID} &&
-                                    docker run --name nginx --network mynet -d -p 80:80 -v /home/ubuntu/cert.pem::/etc/letsencrypt/live/testxeyl.online/cert.pem:ro -p 443:443 ${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}
+                                    docker run --name nginx --network mynet -d -p 80:80 -v /home/ubuntu/cert.pem:/etc/letsencrypt/live/testxeyl.online/cert.pem:ro -p 443:443 ${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}
                                 '
                             """
                         }
