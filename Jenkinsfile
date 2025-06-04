@@ -86,6 +86,7 @@ pipeline {
                             // Запускаем контейнеры, монтируя сертификат туда, где nginx ожидает его
                             sh """
                                 ssh -o StrictHostKeyChecking=no ${server} '
+                                    chmod 644 /home/ubuntu/cert.pem
                                     docker network create mynet || true &&
 
                                     # Остановить и удалить старые контейнеры apache и nginx, если они есть
