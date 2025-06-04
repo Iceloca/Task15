@@ -74,7 +74,7 @@ pipeline {
                 withCredentials([
                     certificate(credentialsId: 'certificate-credentials-id', certificateVariable: 'CERT_PEM')
                 ]) {
-                    sshagent([SSH_CREDENTIALS_ID]) {
+                    sshagent([env.SSH_CREDENTIALS_ID]]) {
                         for (server in servers) {
                             echo "Deploying to ${server}"
 
