@@ -9,7 +9,7 @@ pipeline {
         DOCKER_CREDENTIALS_ID = "docker-credentials-id" // Jenkins credentials
         DEPLOY_SERVER = "user@your-server"
         DEPLOY_PATH = "/path/to/deployment"
-        SSH_CREDENTIALS_ID = "fab1f3fd-1663-4b61-82b0-c0d6040f89a7"
+        SSH_CREDENTIALS_ID = "ssh-credentials-id"
     }
 
     stages {
