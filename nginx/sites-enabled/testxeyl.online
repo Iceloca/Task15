@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name nginx.testxeyl.online ;
+    server_name testxeyl.online ;
 
     return 301 https://$host$request_uri;
 }
@@ -18,8 +18,8 @@ log_format proxy_log '$remote_addr - $host [$time_local] '
 server {
     listen 443 ssl;
     server_name testxeyl.online;
-    ssl_certificate /etc/letsencrypt/live/testxeyl.online/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/testxeyl.online/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/testxeyl.online/cert.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/testxeyl.online/cert.pem; # managed by Certbot
 
 
     access_log /var/log/nginx/access_proxy.log proxy_log;
