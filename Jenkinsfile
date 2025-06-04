@@ -7,8 +7,6 @@ pipeline {
         NGINX_IMAGE_NAME = "iceloka/my-nginx"
         APACHE_IMAGE_NAME = "iceloka/my-apache"
         DOCKER_CREDENTIALS_ID = "docker-credentials-id" // Jenkins credentials
-        DEPLOY_SERVER = "user@your-server"
-        DEPLOY_PATH = "/path/to/deployment"
         SSH_CREDENTIALS_ID = "ssh-credentials-id"
     }
 
@@ -25,11 +23,6 @@ pipeline {
                 }
              }
          }
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Build Nginx Docker Image') {
             steps {
                 script {
