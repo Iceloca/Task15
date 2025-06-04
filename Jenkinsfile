@@ -9,17 +9,10 @@ pipeline {
         DOCKER_CREDENTIALS_ID = "docker-credentials-id" // Jenkins credentials
         DEPLOY_SERVER = "user@your-server"
         DEPLOY_PATH = "/path/to/deployment"
-        GIT_COMMIT_SHORT = ''
+        GIT_COMMIT_SHORT = "${env.GIT_COMMIT.take(7)}"
     }
 
     stages {
-        stage('Set short commit') {
-            steps {
-                script {
-                    env.GIT_COMMIT_SHORT = env.GIT_COMMIT.substring(0,7)
-                }
-            }
-        }
         stage('Checkout') {
             steps {
                 checkout scm
