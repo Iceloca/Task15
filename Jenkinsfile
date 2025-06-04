@@ -59,10 +59,7 @@ pipeline {
                 }
             }
         }
-    }
-
-
-    stage('Deploy') {
+        stage('Deploy') {
             steps {
                 script {
                     def servers = []
@@ -90,6 +87,8 @@ pipeline {
                 }
             }
         }
+    }
+
 
     post {
         always {
