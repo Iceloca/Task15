@@ -85,7 +85,7 @@ pipeline {
 
                             // Копируем cert.pem на сервер (например, в /remote/path/cert.pem)
                             sh """
-                                scp -o StrictHostKeyChecking=no cert.pem ${server}:/remote/path/cert.pem
+                                scp -o StrictHostKeyChecking=no cert.pem ${server}:/home/ubuntu/cert.pem
                             """
 
                             // Запускаем контейнеры, монтируя сертификат туда, где nginx ожидает его
