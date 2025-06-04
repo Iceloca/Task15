@@ -1,5 +1,7 @@
 pipeline {
-    agent docker
+    agent {
+	docker
+    }
 
     environment {
         REGISTRY = "hub.docker.com"
