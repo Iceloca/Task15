@@ -33,7 +33,7 @@ pipeline {
         stage('Build Nginx Docker Image') {
             steps {
                 script {
-                    dockerNginxImage = docker.build("${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}"", "nginx")
+                    dockerNginxImage = docker.build("${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}", "nginx")
                     sh "docker tag ${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID} ${NGINX_IMAGE_NAME}:latest"
 
                 }
@@ -42,7 +42,7 @@ pipeline {
         stage('Build Apache Docker Image') {
             steps {
                 script {
-                    dockerApacheImage = docker.build("${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}"", "nginx")
+                    dockerApacheImage = docker.build("${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}", "nginx")
                     sh "docker tag ${APACHE_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID} ${APACHE_IMAGE_NAME}:latest"
 
                 }
