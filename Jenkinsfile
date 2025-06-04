@@ -19,11 +19,11 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Nginx Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${REGISTRY}/${IMAGE_NAME}:${GIT_COMMIT_SHORT}")
-                    docker.build("${REGISTRY}/${IMAGE_NAME}:latest")
+                    dockerImage = docker.build("${REGISTRY}/${IMAGE_NAME}:${GIT_COMMIT_SHORT}", "nginx")
+                    docker.build("${REGISTRY}/${IMAGE_NAME}:latest", "nginx")
                 }
             }
         }
