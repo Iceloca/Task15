@@ -42,7 +42,7 @@ pipeline {
         stage('Build Apache Docker Image') {
             steps {
                 script {
-                    dockerApacheImage = docker.build("${NGINX_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}", "nginx")
+                    dockerApacheImage = docker.build("${APACHE_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID}", "apache")
                     sh "docker tag ${APACHE_IMAGE_NAME}:${env.BRANCH_NAME}_${env.BUILD_ID} ${APACHE_IMAGE_NAME}:latest"
 
                 }
